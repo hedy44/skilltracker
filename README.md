@@ -16,9 +16,9 @@ Traditional CVs and skill checklists are obsolete. Skilltracker validates real s
 - API: REST + GraphQL
 
 ## Roadmap (MVP)
-- [ x ] Setup local environment
-- [ x ] Initial folder structure
-- [ x ] Visionary README
+- [x] Setup local environment
+- [x] Initial folder structure
+- [x] Visionary README
 - [ ] Initialize Next.js frontend
 - [ ] Initialize Express.js backend
 - [ ] Docker Compose for all services
