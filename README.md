@@ -19,7 +19,7 @@ Traditional CVs and skill checklists are obsolete. Skilltracker validates real s
 - [x] Setup local environment
 - [x] Initial folder structure
 - [x] Visionary README
-- [ ] Initialize Next.js frontend
+- [x] Initialize Next.js frontend
 - [ ] Initialize Express.js backend
 - [ ] Docker Compose for all services
 - [ ] First working MVP: Add skills, validate, dashboard
