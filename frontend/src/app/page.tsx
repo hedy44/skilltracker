@@ -14,8 +14,7 @@ export default function Home() {
         onChange={e => setName(e.target.value)} 
         />
        <button onClick={resetName}>Reset Name</button>
-       <Greeting name={name} 
-       />
+       <Greeting name={name}  message="Ready to start your skill journey?"/>
       <p>Welcome! This is the beginning of a visionary skill tracking platform.</p>
     </main>
   )
