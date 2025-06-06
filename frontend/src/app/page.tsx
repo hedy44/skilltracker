@@ -7,11 +7,16 @@ export default function Home() {
   //Constantes 
   const [name, setName] =useState('');
   const resetName = () => setName('');
-  const skills = [
+  const [skills, setSkills] = useState([
     {id: 1, name: "React"},
     {id: 2, name: "Typescript"},
     {id: 3, name: "Docker"},
-  ]
+  ]);
+
+  function handleRemoveSkill(id: number) {
+  setSkills(skills.filter(skill => skill.id !== id));
+}
+
 
   return (
     <main>
@@ -29,7 +34,11 @@ export default function Home() {
       <h2>My Skills</h2>
       <div>
         {skills.map(skill => (
-          <SkillCard key={skill.id} skill={skill} />
+          <SkillCard 
+          key={skill.id} 
+          skill={skill} 
+          onRemove={handleRemoveSkill}
+          />
         ))}
       </div>
     </main>
