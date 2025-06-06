@@ -1,8 +1,9 @@
+// Props: skill (objeto) e onRemove (função do pai)
 type SkillCardProps = {
     skill: {id: number; name: string};
     onRemove: (id: number) => void;
 }
-
+// Componente filho
 export default function SkillCard ({ skill, onRemove} : SkillCardProps){
     return ( 
         <div>

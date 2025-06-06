@@ -2,9 +2,12 @@
 import { useState } from 'react' ;
 import Greeting from '../components/Greeting'
 import SkillCard from '../components/SkillCard';
+
+
+// Componente principal (pai)
 export default function Home() {
 
-  //Constantes 
+  // 1. Estado dos skills (array de objetos)
   const [name, setName] =useState('');
   const resetName = () => setName('');
   const [skills, setSkills] = useState([
@@ -13,7 +16,9 @@ export default function Home() {
     {id: 3, name: "Docker"},
   ]);
 
+  // 2. Função para remover uma skill (passa o id do skill a remover)
   function handleRemoveSkill(id: number) {
+    // Filtra o array para tirar o skill com o id indicado
   setSkills(skills.filter(skill => skill.id !== id));
 }
 
