@@ -23,6 +23,7 @@ export default function Home() {
   const [newSkill, setNewSkill] = useState("");
   const [proficiency, setProficiency] = useState('');
   const [erro, setErro] = useState('');
+  const [success, setSuccess] = useState('');
 
   // ===============================
   // FUNÇÕES AUXILIARES
@@ -52,6 +53,9 @@ export default function Home() {
     setErro("Skill proficiency is required.");
     return;
     }
+
+    setSuccess("Skill added successfully!");
+    setTimeout(() => setSuccess(''), 2000);
 
   const novaSkill = { id: Date.now(), name: newSkill, proficiency };
     setSkills([...skills, novaSkill]);
@@ -106,9 +110,9 @@ export default function Home() {
       <p>
         Welcome! This is the beginning of a visionary skill tracking platform.
       </p>
-      {/* ERROR MESSAGE */}
+      {/* ERROR MESSAGE AND SUCCESS MESSAGE */}
       {erro && <p className="text-red-500 mb-4">{erro}</p>}
-
+      {success && <p className="text-green-600 mb-2">{success}</p>}
       {/* NOVA SKILL */}
       <div className="mb-4 flex gap-2">
         <input
@@ -133,6 +137,8 @@ export default function Home() {
           onClick={handleAddSkill}>
             Adicionar Skill
         </button>
+        
+
       </div>
       {/* LISTA DE SKILLS */}
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
