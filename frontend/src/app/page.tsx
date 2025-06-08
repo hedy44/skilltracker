@@ -68,6 +68,8 @@ export default function Home() {
     setSkills(skills.filter((skill) => skill.id !== id));
   }
 
+  //Decide a cor do badge de acordo com a proficiencia
+ 
   // ===============================
   // EFEITOS COLATERAIS (useEffect)
   // ===============================
