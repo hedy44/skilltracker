@@ -3,39 +3,36 @@ import { useState, useEffect } from "react";
 import Greeting from "../components/Greeting";
 import SkillCard from "../components/SkillCard";
 
-// Componente principal (pai)
+// ===============================
+// TYPE DEFINITIONS (sempre no topo)
+// ===============================
+type Skill = {
+  id: number;
+  name: string;
+  proficiency: string;
+};
+// ===============================
+// COMPONENTE PRINCIPAL (Home)
+// ===============================
 export default function Home() {
-  // 1. Estado dos skills (array de objetos)
+  // ===============================
+  // ESTADO GLOBAL DO COMPONENTE
+  // ===============================
   const [name, setName] = useState("");
-  const resetName = () => setName("");
-  const [skills, setSkills] = useState([
-  { id: 1, name: "React" },
-  { id: 2, name: "Typescript" },
-  { id: 3, name: "Docker" },
-]);
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState("");
-  const[erro, setErro] = useState('');
+  const [proficiency, setProficiency] = useState('');
+  const [erro, setErro] = useState('');
 
+  // ===============================
+  // FUNÇÕES AUXILIARES
+  // ===============================
+  // Limpa o nome do utilizador
+  const resetName = () => setName("");
 
-
-
-  useEffect(() => {
-  const saved = localStorage.getItem('skills');
-  if (saved) setSkills(JSON.parse(saved));
-}, []);
-  // Efeitos colaterais (ex: guardar no LocalStorage)
-  useEffect(() => {
-    localStorage.setItem("skills", JSON.stringify(skills));
-  }, [skills]);
-
-  // 2. Função para remover uma skill (passa o id do skill a remover)
-  function handleRemoveSkill(id: number) {
-    // Filtra o array para tirar o skill com o id indicado
-    setSkills(skills.filter((skill) => skill.id !== id));
-  }
-
+  // Adiciona uma nova skill à lista
   function handleAddSkill() {
-    // Limpa o erro antes de validar
+    
     setErro('');
     if (!newSkill.trim()) {
       setErro('A skill nao pode ser vazia');
@@ -51,29 +48,68 @@ export default function Home() {
       return;
     }
 
-    const novaSkill = { id: Date.now(), name: newSkill };
+    if (!proficiency) {
+    setErro("Skill proficiency is required.");
+    return;
+    }
+
+  const novaSkill = { id: Date.now(), name: newSkill, proficiency };
     setSkills([...skills, novaSkill]);
     setNewSkill('');
+    setProficiency('');
   }
 
+  function handleRemoveSkill(id: number) {
+    // Filtra o array para tirar o skill com o id indicado
+    setSkills(skills.filter((skill) => skill.id !== id));
+  }
+
+  // ===============================
+  // EFEITOS COLATERAIS (useEffect)
+  // ===============================
+
+  useEffect(() => {
+     // Carrega skills do localStorage ao montar
+  const saved = localStorage.getItem('skills');
+  if (saved) setSkills(JSON.parse(saved));
+}, []);
+  // Guarda as skills no localStorage sempre que mudam
+  useEffect(() => {
+    localStorage.setItem("skills", JSON.stringify(skills));
+  }, [skills]);
+
+  
+
+    
+
+  
   return (
     <main className="max-w-2xl mx-auto p-6">
+      {/* HEADER */}
       <h1  className="text-4xl font-bold text-center mb-4 text-blue-700">Skilltracker MVP</h1>
-      <input
-        className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
-        type="text"
-        placeholder="Your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button 
-        className="ml-2 px-4 py-2 bg-red-700 rounded hover:bg-gray-300 mb-2"
-        onClick={resetName}>Reset Name</button>
+      <div className="mb-4 flex gap-2">
+        <input
+          className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button 
+          className="ml-2 px-4 py-2 bg-red-700 rounded hover:bg-gray-300 mb-2"
+          onClick={resetName}>Reset Name
+        </button>
+      </div>
+      
       <Greeting name={name} message="Ready to start your skill journey?" />
+
       <p>
         Welcome! This is the beginning of a visionary skill tracking platform.
       </p>
+      {/* ERROR MESSAGE */}
       {erro && <p className="text-red-500 mb-4">{erro}</p>}
+
+      {/* NOVA SKILL */}
       <div className="mb-4 flex gap-2">
         <input
           className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -82,11 +118,24 @@ export default function Home() {
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
         />
+        <select
+          className="px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-fuchsia-300 text-blue-900"
+          value={proficiency}
+          onChange={e => setProficiency(e.target.value)}
+        >
+          <option value="">Choose one...</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
         <button 
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          onClick={handleAddSkill}>Adicionar Skill</button>
+          onClick={handleAddSkill}>
+            Adicionar Skill
+        </button>
       </div>
-      <h2>My Skills</h2>
+      {/* LISTA DE SKILLS */}
+      <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
       <div>
         {skills.map((skill) => (
           <SkillCard
