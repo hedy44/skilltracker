@@ -57,27 +57,35 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <h1>Skilltracker MVP</h1>
+    <main className="max-w-2xl mx-auto p-6">
+      <h1  className="text-4xl font-bold text-center mb-4 text-blue-700">Skilltracker MVP</h1>
       <input
+        className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
         type="text"
         placeholder="Your name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <button onClick={resetName}>Reset Name</button>
+      <button 
+        className="ml-2 px-4 py-2 bg-red-700 rounded hover:bg-gray-300 mb-2"
+        onClick={resetName}>Reset Name</button>
       <Greeting name={name} message="Ready to start your skill journey?" />
       <p>
         Welcome! This is the beginning of a visionary skill tracking platform.
       </p>
-      {erro && <p style={{ color: 'red' }}>{erro}</p>}
-      <input
-        type="text"
-        placeholder="Nova skill"
-        value={newSkill}
-        onChange={(e) => setNewSkill(e.target.value)}
-      />
-      <button onClick={handleAddSkill}>Adicionar Skill</button>
+      {erro && <p className="text-red-500 mb-4">{erro}</p>}
+      <div className="mb-4 flex gap-2">
+        <input
+          className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          type="text"
+          placeholder="Nova skill"
+          value={newSkill}
+          onChange={(e) => setNewSkill(e.target.value)}
+        />
+        <button 
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          onClick={handleAddSkill}>Adicionar Skill</button>
+      </div>
       <h2>My Skills</h2>
       <div>
         {skills.map((skill) => (
