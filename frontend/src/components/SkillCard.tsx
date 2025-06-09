@@ -1,9 +1,21 @@
-// Props: skill (objeto) e onRemove (função do pai)
+import { useState } from "react";// ===============================
+// TYPE DEFINITIONS (sempre no topo)
+// ===============================
 type SkillCardProps = {
     skill: {id: number; name: string, proficiency: string};
     onRemove: (id: number) => void;
-}
+    setEditingId: (id: number) => void;
+    editingId: number | null;
+    onSave: (id: number, newName: string, newProficiency: string) => void;
+}// ===============================
+  // ESTADO GLOBAL DO COMPONENTE
+  // ===============================
 
+
+// ===============================
+  // FUNÇÕES AUXILIARES
+  // ===============================
+//Decide a cor do badge de acordo com a proficiencia
   function getProficiencyBadgeClass(level: string) {
   switch (level) {
     case 'Beginner':
@@ -18,16 +30,79 @@ type SkillCardProps = {
 } 
 
 // Componente filho
-export default function SkillCard ({ skill, onRemove} : SkillCardProps){
+export default function SkillCard ({ 
+  skill, 
+  onRemove, 
+  setEditingId, 
+  editingId,
+  onSave
+} : SkillCardProps){
+
+      // Estados temporários SÓ se estiver a editar esta skill
+  const [editName, setEditName] = useState(skill.name);
+  const [editProficiency, setEditProficiency] = useState(skill.proficiency);
+
+  // Se esta skill está a ser editada, mostra os inputs
+  if (editingId === skill.id) {
+    return (
+      <div className="flex items-center px-4 py-2 rounded mb-2 shadow-sm border border-blue-200 bg-purple-200">
+        <input
+          className="flex-1 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800"
+          value={editName}
+          onChange={e => setEditName(e.target.value)}
+        />
+        <select
+          className="mx-4 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800"
+          value={editProficiency}
+          onChange={e => setEditProficiency(e.target.value)}
+        >
+          <option value="">Proficiency</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+
+        <div className="ml-auto flex gap-2">
+          <button
+          className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800 transition"
+          onClick={() => onSave(skill.id, editName, editProficiency)}
+        >
+          Guardar
+        </button>
+        <button
+           className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500 transition"
+          onClick={() => setEditingId(null)}
+        >
+          Cancelar
+        </button>
+        </div>
+        
+      </div>
+    );
+  }
+
     return ( 
-        <div className="flex justify-between items-center bg-gray-100 px-4 py-2 rounded mb-2">
-            <span className="text-blue-600 font-semibold">{skill.name}</span>
-            <span className={`text-xs px-2 py-1 rounded ${getProficiencyBadgeClass(skill.proficiency)}`}>
+        <div className="flex items-center px-4 py-2 rounded mb-2 shadow-sm border border-gray-200 bg-gray-50">
+            <span className="flex-1 text-blue-700 font-semibold">{skill.name}</span>
+         <div className="w-40 flex justify-center">
+            <span className={`mx-4 text-xs px-2 py-1 rounded ${getProficiencyBadgeClass(skill.proficiency)}`}>
                 {skill.proficiency}
-             </span>
+            </span>
+          </div>   
+            
+          <div className="ml-auto flex gap-2">
+            <button 
+                className="text-sm text-blue-600 hover:underline"
+                onClick={() => setEditingId(skill.id)}
+                >
+                Editar
+            </button>
+
             <button 
                 className="text-sm text-red-600 hover:underline"
                 onClick={() => onRemove(skill.id)}>Remover</button>
+          </div>
+            
         </div>
     )
 }

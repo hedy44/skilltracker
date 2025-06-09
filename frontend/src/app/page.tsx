@@ -24,6 +24,7 @@ export default function Home() {
   const [proficiency, setProficiency] = useState('');
   const [erro, setErro] = useState('');
   const [success, setSuccess] = useState('');
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   // ===============================
   // FUNÇÕES AUXILIARES
@@ -68,7 +69,20 @@ export default function Home() {
     setSkills(skills.filter((skill) => skill.id !== id));
   }
 
-  //Decide a cor do badge de acordo com a proficiencia
+  function handleSaveEdit(id: number, newName: string, newProficiency: string) {
+  setSkills(skills =>
+    skills.map(skill =>
+      skill.id === id
+        ? { ...skill, name: newName, proficiency: newProficiency }
+        : skill
+    )
+  );
+  setEditingId(null);
+   setSuccess("Skill updated successfully!");
+  setTimeout(() => setSuccess(''), 2000);
+}
+
+  
  
   // ===============================
   // EFEITOS COLATERAIS (useEffect)
@@ -150,6 +164,9 @@ export default function Home() {
             key={skill.id}
             skill={skill}
             onRemove={handleRemoveSkill}
+            setEditingId={setEditingId}
+            editingId={editingId}
+            onSave={handleSaveEdit} 
           />
         ))}
       </div>
