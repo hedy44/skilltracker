@@ -65,7 +65,11 @@ export default function Home() {
   }
 
   function handleRemoveSkill(id: number) {
+    // 1. Confirmação antes de remover
+    const confirmed = window.confirm("Queres mesmo remover a skill?");
+    if(!confirmed) return; //Se nao confirmar , sai da função
     // Filtra o array para tirar o skill com o id indicado
+    // 2. Remove mesmo se confirmar
     setSkills(skills.filter((skill) => skill.id !== id));
   }
 
