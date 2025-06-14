@@ -26,6 +26,7 @@ export default function Home() {
   const [success, setSuccess] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [sortOption, setSortOption] = useState<'alpha' | 'proficiency'>('alpha');
+  const [filter, setFilter] = useState<"" | "Beginner" | "Intermediate" | "Advanced">("");
 
   // ===============================
   // FUNÇÕES AUXILIARES
@@ -176,7 +177,7 @@ export default function Home() {
         
 
       </div>
-
+     
        {/* CRITÉRIO DE ORDENAÇÃO */}
       <div className="mb-4 flex items-center gap-2">
         <label htmlFor="sort" className="text-sm font-medium mr-2">Sort skills:</label>
@@ -189,14 +190,29 @@ export default function Home() {
           <option value="alpha">Alphabetical (A-Z)</option>
           <option value="proficiency">By proficiency</option>
         </select>
+
+        <select
+          value={filter}
+          onChange={e => setFilter(e.target.value as any)}
+          className=" px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">All levels</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+</select>
+        
       </div>
+      
 
       
       {/* LISTA DE SKILLS */}
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
       
       <div>
-        {getSkillsSorted().map((skill) => (
+        {getSkillsSorted()
+        .filter(skill => !filter || skill.proficiency === filter)
+        .map(skill => (
           <SkillCard
             key={skill.id}
             skill={skill}
