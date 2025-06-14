@@ -4,7 +4,7 @@ import { useState } from "react";// ===============================
 type SkillCardProps = {
     skill: {id: number; name: string, proficiency: string};
     onRemove: (id: number) => void;
-    setEditingId: (id: number) => void;
+    setEditingId: (id: number | null) => void;
     editingId: number | null;
     onSave: (id: number, newName: string, newProficiency: string) => void;
 }// ===============================
