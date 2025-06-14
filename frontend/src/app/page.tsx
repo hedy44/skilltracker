@@ -27,6 +27,7 @@ export default function Home() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [sortOption, setSortOption] = useState<'alpha' | 'proficiency'>('alpha');
   const [filter, setFilter] = useState<"" | "Beginner" | "Intermediate" | "Advanced">("");
+  const [search, setSearch] = useState('');
 
   // ===============================
   // FUNÇÕES AUXILIARES
@@ -108,7 +109,6 @@ export default function Home() {
   // ===============================
   // EFEITOS COLATERAIS (useEffect)
   // ===============================
-
   useEffect(() => {
      // Carrega skills do localStorage ao montar
   const saved = localStorage.getItem('skills');
@@ -118,6 +118,15 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem("skills", JSON.stringify(skills));
   }, [skills]);
+
+  useEffect(() => {
+  const savedName = localStorage.getItem("username");
+  if (savedName) setName(savedName);
+}, []);
+
+ useEffect(() => {
+  localStorage.setItem("username", name);
+}, [name]);
 
   
 
@@ -200,7 +209,17 @@ export default function Home() {
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>
           <option value="Advanced">Advanced</option>
-</select>
+       </select>
+
+      {/* SEARCH ENGINE*/}
+      <input
+          className=" px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          type="text"
+          placeholder="Search skills..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+      />
+
         
       </div>
       
@@ -212,6 +231,7 @@ export default function Home() {
       <div>
         {getSkillsSorted()
         .filter(skill => !filter || skill.proficiency === filter)
+        .filter(skill => skill.name.toLowerCase().includes(search.toLowerCase()))
         .map(skill => (
           <SkillCard
             key={skill.id}
