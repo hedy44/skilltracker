@@ -88,12 +88,16 @@ export default function Home() {
 }
 
  function getSkillsSorted() {
+  const order = { Beginner: 1, Intermediate: 2, Advanced: 3 };
     if (sortOption === "alpha") {
       return [...skills].sort((a, b) => a.name.localeCompare(b.name));
     }
     if (sortOption === "proficiency") {
       const order = { "Beginner": 1, "Intermediate": 2, "Advanced": 3 };
-      return [...skills].sort((a, b) => order[a.proficiency] - order[b.proficiency]);
+      return [...skills].sort(
+        (a, b) =>
+          order[a.proficiency as keyof typeof order] -
+          order[b.proficiency as keyof typeof order]);
     }
     return skills;
   }
