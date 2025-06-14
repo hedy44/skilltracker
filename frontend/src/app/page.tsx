@@ -2,6 +2,11 @@
 import { useState, useEffect } from "react";
 import Greeting from "../components/Greeting";
 import SkillCard from "../components/SkillCard";
+import SkillSearch from "../components/SkillSearch";
+import SkillForm from "../components/SkillForm";
+import ProficiencyFilter from "../components/ProficiencyFilter";
+import SkillList from '../components/SkillList'
+import SortSelect from "../components/SortSelect";
 
 // ===============================
 // TYPE DEFINITIONS (sempre no topo)
@@ -11,6 +16,7 @@ type Skill = {
   name: string;
   proficiency: string;
 };
+
 // ===============================
 // COMPONENTE PRINCIPAL (Home)
 // ===============================
@@ -160,88 +166,42 @@ export default function Home() {
       {erro && <p className="text-red-500 mb-4">{erro}</p>}
       {success && <p className="text-green-600 mb-2">{success}</p>}
       {/* NOVA SKILL */}
-      <div className="mb-4 flex gap-2">
-        <input
-          className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          type="text"
-          placeholder="Nova skill"
-          value={newSkill}
-          onChange={(e) => setNewSkill(e.target.value)}
-        />
-        <select
-          className="px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-fuchsia-300 text-blue-900"
-          value={proficiency}
-          onChange={e => setProficiency(e.target.value)}
-        >
-          <option value="">Choose one...</option>
-          <option value="Beginner">Beginner</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
-        </select>
-        <button 
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          onClick={handleAddSkill}>
-            Adicionar Skill
-        </button>
-        
-
-      </div>
+     <SkillForm
+        newSkill={newSkill}
+        setNewSkill={setNewSkill}
+        proficiency={proficiency}
+        setProficiency={setProficiency}
+        onAddSkill={handleAddSkill}
+        erro={erro}
+        success={success}
+      />
      
        {/* CRITÉRIO DE ORDENAÇÃO */}
       <div className="mb-4 flex items-center gap-2">
-        <label htmlFor="sort" className="text-sm font-medium mr-2">Sort skills:</label>
-        <select
-          id="sort"
-          value={sortOption}
-          onChange={e => setSortOption(e.target.value as any)}
-          className="px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          <option value="alpha">Alphabetical (A-Z)</option>
-          <option value="proficiency">By proficiency</option>
-        </select>
-
-        <select
-          value={filter}
-          onChange={e => setFilter(e.target.value as any)}
-          className=" px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          <option value="">All levels</option>
-          <option value="Beginner">Beginner</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
-       </select>
-
-      {/* SEARCH ENGINE*/}
-      <input
-          className=" px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          type="text"
-          placeholder="Search skills..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-      />
-
-        
+        <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
+        {/* Proficiency Filter*/}
+        <ProficiencyFilter filter={filter} setFilter={setFilter} />
+        {/* Search bar*/}
+        <SkillSearch search={search} setSearch={setSearch} />
       </div>
       
 
       
       {/* LISTA DE SKILLS */}
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
-      
       <div>
-        {getSkillsSorted()
-        .filter(skill => !filter || skill.proficiency === filter)
+        <SkillList
+        skills={getSkillsSorted()
+        .filter(skill =>
+          filter === "" || skill.proficiency === filter
+         )
         .filter(skill => skill.name.toLowerCase().includes(search.toLowerCase()))
-        .map(skill => (
-          <SkillCard
-            key={skill.id}
-            skill={skill}
-            onRemove={handleRemoveSkill}
-            setEditingId={setEditingId}
-            editingId={editingId}
-            onSave={handleSaveEdit} 
-          />
-        ))}
+        }
+        onRemove={handleRemoveSkill}
+        setEditingId={setEditingId}
+        editingId={editingId}
+        onSave={handleSaveEdit}
+      />
       </div>
     </main>
   );
