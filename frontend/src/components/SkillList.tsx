@@ -10,6 +10,7 @@ type Skill = {
 
 type SkillListProps = {
   skills: Skill[];
+  filteredSkills: Skill[];
   onRemove: (id: number) => void;
   setEditingId: (id: number | null) => void;
   editingId: number | null;
@@ -19,13 +20,18 @@ type SkillListProps = {
 
 export default function SkillList({
   skills,
+  filteredSkills,
   onRemove,
   setEditingId,
   editingId,
   onSave,
 }: SkillListProps) {
-  if (!skills.length) return <p className="text-gray-400 mt-4 text-center">No skills found.</p>;
-
+  if (skills.length === 0) {
+    return <p className="text-gray-400 mt-4">No skills added yet. Add your first skill!</p>;
+  }
+  if (filteredSkills.length === 0) {
+    return <p className="text-gray-400 mt-4">No skills match your search.</p>;
+  }
   return (
     <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 w-full transition-all">
       {skills.map(skill => (

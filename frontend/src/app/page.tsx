@@ -47,20 +47,24 @@ export default function Home() {
     setErro('');
     if (!newSkill.trim()) {
       setErro('A skill nao pode ser vazia');
+      setTimeout(() => setErro(''), 5000);
       return;
     }
     
     if(newSkill.trim().length <2 ) {
       setErro('A skill deve ter no minimo 3 letras');
+      setTimeout(() => setErro(''), 5000);
       return;
     }
     if (skills.some(skill => skill.name.toLowerCase() == newSkill.trim().toLowerCase())){
       setErro('Essa skill ja existe');
+      setTimeout(() => setErro(''), 5000);
       return;
     }
 
     if (!proficiency) {
     setErro("Skill proficiency is required.");
+    setTimeout(() => setErro(''), 5000);
     return;
     }
 
@@ -192,10 +196,9 @@ export default function Home() {
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
       <div className="w-full">
         <SkillList
-        skills={getSkillsSorted()
-        .filter(skill =>
-          filter === "" || skill.proficiency === filter
-         )
+        skills={skills}
+        filteredSkills={getSkillsSorted()
+        .filter(skill => filter === "" || skill.proficiency === filter)
         .filter(skill => skill.name.toLowerCase().includes(search.toLowerCase()))
         }
         onRemove={handleRemoveSkill}
