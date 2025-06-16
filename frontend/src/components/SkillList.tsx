@@ -24,10 +24,10 @@ export default function SkillList({
   editingId,
   onSave,
 }: SkillListProps) {
-  if (!skills.length) return <p className="text-gray-400 mt-4">No skills found.</p>;
+  if (!skills.length) return <p className="text-gray-400 mt-4 text-center">No skills found.</p>;
 
   return (
-    <div>
+    <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 w-full transition-all">
       {skills.map(skill => (
         <SkillCard
           key={skill.id}

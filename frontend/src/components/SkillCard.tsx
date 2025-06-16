@@ -45,14 +45,15 @@ export default function SkillCard ({
   // Se esta skill está a ser editada, mostra os inputs
   if (editingId === skill.id) {
     return (
-      <div className="flex items-center px-4 py-2 rounded mb-2 shadow-sm border border-blue-200 bg-purple-200">
+      <div className="flex flex-wrap items-center gap-2 w-full max-w-2xl mx-auto bg-purple-200 px-4 py-2 rounded mb-2 shadow border border-blue-200">
         <input
-          className="flex-1 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800"
+          className="flex-1 min-w-[120px] px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800 bg-black text-white"
           value={editName}
           onChange={e => setEditName(e.target.value)}
         />
-        <select
-          className="mx-4 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800"
+        {/* Proficiency */}
+          <select
+          className="sm:mx-4 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-800 bg-purple-100"
           value={editProficiency}
           onChange={e => setEditProficiency(e.target.value)}
         >
@@ -61,8 +62,8 @@ export default function SkillCard ({
           <option value="Intermediate">Intermediate</option>
           <option value="Advanced">Advanced</option>
         </select>
-
-        <div className="ml-auto flex gap-2">
+        {/* Botões */}
+        <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-auto">
           <button
           className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800 transition"
           onClick={() => onSave(skill.id, editName, editProficiency)}
@@ -81,16 +82,18 @@ export default function SkillCard ({
     );
   }
 
+// VISUALIZAÇÃO NORMAL
     return ( 
-        <div className="flex items-center px-4 py-2 rounded mb-2 shadow-sm border border-gray-200 bg-gray-50">
-            <span className="flex-1 text-blue-700 font-semibold">{skill.name}</span>
-         <div className="w-40 flex justify-center">
-            <span className={`mx-4 text-xs px-2 py-1 rounded ${getProficiencyBadgeClass(skill.proficiency)}`}>
+        <div className="flex flex-wrap items-center gap-2 w-full max-w-2xl mx-auto bg-white px-4 py-2 rounded mb-2 shadow border border-gray-200">
+          {/* Nome */}
+            <span className="flex-1 min-w-[120px] text-blue-700 font-semibold">{skill.name}</span>
+         {/* Badge */}
+            <span className={`text-xs px-2 py-1 rounded ${getProficiencyBadgeClass(skill.proficiency)}`}>
                 {skill.proficiency}
             </span>
-          </div>   
-            
-          <div className="ml-auto flex gap-2">
+             
+          {/* Botões */}
+          <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-auto">
             <button 
                 className="text-sm text-blue-600 hover:underline"
                 onClick={() => setEditingId(skill.id)}

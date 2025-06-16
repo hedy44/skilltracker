@@ -18,6 +18,6 @@ export default function SkillSearch ({search, setSearch}: SkillSearchProps){
     )
 
 }
-{/* SEARCH ENGINE*/}
+
      
  

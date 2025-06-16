@@ -140,19 +140,20 @@ export default function Home() {
 
   
   return (
-    <main className="max-w-2xl mx-auto p-6">
+    <main className="w-full max-w-xl sm:max-w-2xl mx-auto p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* HEADER */}
-      <h1  className="text-4xl font-bold text-center mb-4 text-blue-700">Skilltracker MVP</h1>
-      <div className="mb-4 flex gap-2">
+      <h1  className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-blue-700">Skilltracker MVP</h1>
+      {/* INPUT NOME + BOTÃO RESET */}
+      <div className="mb-4 flex flex-col sm:flex-row gap-2">
         <input
-          className="flex-1 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
+          className="w-full sm:w-auto px-3 sm:px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2 sm:mb-0"
           type="text"
           placeholder="Your name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <button 
-          className="ml-2 px-4 py-2 bg-red-700 rounded hover:bg-gray-300 mb-2"
+          className="sm:ml-2 px-4 py-2 bg-red-700 rounded hover:bg-gray-300 mb-2 sm:mb-0"
           onClick={resetName}>Reset Name
         </button>
       </div>
@@ -176,8 +177,8 @@ export default function Home() {
         success={success}
       />
      
-       {/* CRITÉRIO DE ORDENAÇÃO */}
-      <div className="mb-4 flex items-center gap-2">
+        {/* CRITÉRIO DE ORDENAÇÃO, FILTRO, SEARCH */}
+      <div className="mb-4 flex flex-wrap gap-2 w-full">
         <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
         {/* Proficiency Filter*/}
         <ProficiencyFilter filter={filter} setFilter={setFilter} />
@@ -189,7 +190,7 @@ export default function Home() {
       
       {/* LISTA DE SKILLS */}
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
-      <div>
+      <div className="w-full">
         <SkillList
         skills={getSkillsSorted()
         .filter(skill =>
