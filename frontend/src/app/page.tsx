@@ -7,6 +7,7 @@ import SkillForm from "../components/SkillForm";
 import ProficiencyFilter from "../components/ProficiencyFilter";
 import SkillList from '../components/SkillList'
 import SortSelect from "../components/SortSelect";
+import ExportSkills from "../components/ExportSkills";
 
 // ===============================
 // TYPE DEFINITIONS (sempre no topo)
@@ -205,6 +206,7 @@ export default function Home() {
 
       
       {/* LISTA DE SKILLS */}
+      <ExportSkills skills={skills} />
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
       <div className="w-full">
         {loading ? (
