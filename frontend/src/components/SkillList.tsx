@@ -34,7 +34,7 @@ export default function SkillList({
   }
   return (
     <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 w-full transition-all">
-      {skills.map(skill => (
+      {filteredSkills.map(skill => (
         <SkillCard
           key={skill.id}
           skill={skill}

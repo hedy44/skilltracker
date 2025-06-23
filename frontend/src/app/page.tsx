@@ -34,6 +34,9 @@ export default function Home() {
   const [sortOption, setSortOption] = useState<'alpha' | 'proficiency'>('alpha');
   const [filter, setFilter] = useState<"" | "Beginner" | "Intermediate" | "Advanced">("");
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [hydrated, setHydrated] = useState(false);
+
 
   // ===============================
   // FUNÇÕES AUXILIARES
@@ -120,14 +123,23 @@ export default function Home() {
   // EFEITOS COLATERAIS (useEffect)
   // ===============================
   useEffect(() => {
-     // Carrega skills do localStorage ao montar
-  const saved = localStorage.getItem('skills');
-  if (saved) setSkills(JSON.parse(saved));
+     setLoading(true);
+     setTimeout(() => {
+      // Carrega skills do localStorage ao montar
+        const saved = localStorage.getItem('skills');
+        if (saved) setSkills(JSON.parse(saved));
+        setLoading(false);
+        setHydrated(true); // Sinaliza que já carregou
+     }, 800 );
+     
 }, []);
   // Guarda as skills no localStorage sempre que mudam
   useEffect(() => {
-    localStorage.setItem("skills", JSON.stringify(skills));
-  }, [skills]);
+    if (hydrated){
+      localStorage.setItem("skills", JSON.stringify(skills));
+    }
+    
+  }, [skills, hydrated]);
 
   useEffect(() => {
   const savedName = localStorage.getItem("username");
@@ -195,6 +207,9 @@ export default function Home() {
       {/* LISTA DE SKILLS */}
       <h2 className="text-2xl font-semibold mb-2">My Skills</h2>
       <div className="w-full">
+        {loading ? (
+          <div className="text-center text-blue-600 my-6">Loading…</div>
+        ) : (
         <SkillList
         skills={skills}
         filteredSkills={getSkillsSorted()
@@ -206,6 +221,7 @@ export default function Home() {
         editingId={editingId}
         onSave={handleSaveEdit}
       />
+      )}
       </div>
     </main>
   );
