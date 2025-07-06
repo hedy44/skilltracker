@@ -32,10 +32,27 @@ Traditional CVs and skill checklists are obsolete. Skilltracker validates real s
 - [x] Remove skill with confirmation
 - [ ] Initialize Express.js backend
 - [ ] Docker Compose for all services
-- [ ] First working MVP: Validate skills, dashboard
+- [x] First working MVP: Validate skills, dashboard
 
 ## How to Run (Frontend Only)
 ```bash
 cd frontend
 npm install
 npm run dev
+```
+
+## Deploy(Local)
+1. Clone this repository.
+2. Install dependecies: `npm install`.
+3. Run locally : `npm run dev`.
+4. For production build: `npm run build` then `npm start`.
+
+## Deploy Vercel
+- Connect this repository to Vercel (https://vercel.com/import/git).
+- Push to the main branch.-
+- Vercel will build and deploy automatically.
+- Access the generated URL to test the app in production.
+
+
+
+
