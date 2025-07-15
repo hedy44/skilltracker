@@ -58,9 +58,27 @@ app.post("/skills", async (req, res)=>{
     } catch (error) {
       return res.status(500).json({error: "Failed to create skill"});
     }
-    
-  
-})
+  })
+
+  //EDITAR SKILLS
+  app.put("/skills/:id", async (req, res)=>{
+    const id= Number (req.params.id);
+    const {name, proficiency} = req.body;
+
+    if(!name || typeof name !== "string" || !proficiency || typeof proficiency !== "string"){
+      return res.status(400).json({ error: "Missing or invalid fields"});
+    }
+
+    try {
+      const updatedSkill = await prisma.skill.update({
+      where: { id },
+      data: { name, proficiency },
+    });
+    return res.json(updatedSkill);
+    } catch (error) {
+      return res.status(404).json({ error: "Skill not found or update failed"});
+    }
+  })
 
 app.listen(3001, () => {
   console.log("Server running on http://localhost:3001");
