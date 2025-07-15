@@ -30,7 +30,7 @@ Traditional CVs and skill checklists are obsolete. Skilltracker validates real s
 - [x] Add/Edit/Remove skills (frontend MVP)
 - [x] Success/error feedback (frontend)
 - [x] Remove skill with confirmation
-- [ ] Initialize Express.js backend
+- [x] Initialize Express.js backend
 - [ ] Docker Compose for all services
 - [x] First working MVP: Validate skills, dashboard
 
