@@ -132,13 +132,18 @@ export default function Home() {
   // ===============================
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => {
-      // Carrega skills do localStorage ao montar
-      const saved = localStorage.getItem("skills");
-      if (saved) setSkills(JSON.parse(saved));
+    fetch("http://localhost:3001/skills")
+    .then(res => res.json())
+    .then(data => {
+      setSkills(data);
       setLoading(false);
-      setHydrated(true); // Sinaliza que já carregou
-    }, 800);
+      setHydrated(true);
+    })
+    .catch(()=>{
+      setSkills([]);
+      setLoading(false);
+      setHydrated(true);
+    });
   }, []);
   // Guarda as skills no localStorage sempre que mudam
   useEffect(() => {
