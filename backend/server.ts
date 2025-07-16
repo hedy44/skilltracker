@@ -80,6 +80,30 @@ app.post("/skills", async (req, res)=>{
     }
   })
 
+  //APAGAR SKILLs
+  app.delete("/skills/:id", async (req, res)=>{
+    const {id} = req.params;
+
+    const skillId= Number(id);
+    if(!skillId || isNaN(skillId)){
+      return res.status(400).json({error: "Invalid skill ID"})
+    }
+
+    try {
+      await prisma.skill.delete({ where: { id: skillId } });
+      return res.status(204).send();
+
+    } catch (error) {
+      
+       if (typeof error === "object" && error !== null && "code" in error) {
+      if ((error as any).code === "P2025") {
+        return res.status(404).json({ error: "Skill not found" });
+      }
+    }
+    return res.status(500).json({ error: "Failed to delete skill" });
+    }
+  })
+
 app.listen(3001, () => {
   console.log("Server running on http://localhost:3001");
 });
